@@ -1,11 +1,21 @@
 package com.ndmquan.base.project
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import com.ndmquan.base.project.databinding.ActivityMainBinding
+import com.ndmquan.base_project.base.activity.BaseActivity
+import com.ndmquan.base_project.utils.NetworkUtils
+import com.ndmquan.base_project.utils.extension.collectIn
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    ActivityMainBinding::inflate
+) {
+
+    override fun observeData() {
+        NetworkUtils
+            .isNetworkConnected
+            .collectIn(lifecycleScope) {
+                Log.d(TAG, "observeData: ")
+            }
     }
 }
