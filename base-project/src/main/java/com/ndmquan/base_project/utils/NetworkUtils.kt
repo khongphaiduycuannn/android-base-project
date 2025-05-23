@@ -26,7 +26,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-private const val PINGING_TIMEOUT = 2000
+private const val PINGING_TIMEOUT = 1500
 
 val isNetworkConnected get() = _isNetworkConnected
 
