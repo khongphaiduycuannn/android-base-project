@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Base Project</string>
+    <string name="expand_collapse_icon">Expand or collapse section</string>
+    <string name="expansion_state_icon">Section expansion state</string>
+    <string name="item_action_icon">Item action</string>
+    <string name="items_count_suffix"> items</string>
 </resources>
