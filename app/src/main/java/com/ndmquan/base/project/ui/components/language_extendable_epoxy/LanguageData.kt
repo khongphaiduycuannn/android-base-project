@@ -13,9 +13,9 @@ object LanguageData {
             description = "English",
             isExpanded = false,
             children = listOf(
-                ChildLanguageItem(R.drawable.ic_language_usa, name = "American", iso = "en"),
-                ChildLanguageItem(R.drawable.ic_language_english, name = "British", iso = "en"),
-                ChildLanguageItem(R.drawable.ic_language_hindi, name = "Indian", iso = "en")
+                ChildLanguageItem(R.drawable.ic_language_usa, "American", "en"),
+                ChildLanguageItem(R.drawable.ic_language_english, "British", "en"),
+                ChildLanguageItem(R.drawable.ic_language_hindi, "Indian", "en")
             )
         ),
         LanguageItem(

@@ -58,7 +58,7 @@ abstract class LanguageItemModel : EpoxyModelWithHolder<LanguageItemModel.Holder
 
             executePendingBindings()
 
-            root.setPreventDoubleClick {
+            root.setOnClickListener {
                 onClickListener?.invoke(languageItem)
             }
 

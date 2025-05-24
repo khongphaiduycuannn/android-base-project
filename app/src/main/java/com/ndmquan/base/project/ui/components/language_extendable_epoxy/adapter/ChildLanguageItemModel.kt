@@ -36,7 +36,7 @@ abstract class ChildLanguageItemModel : EpoxyModelWithHolder<ChildLanguageItemMo
             item.strokeColor =
                 if (childLanguageItem.isSelected) "#5A5A5A".parseColor() else Color.TRANSPARENT
 
-            root.setPreventDoubleClick {
+            root.setOnClickListener {
                 onClickListener?.invoke(childLanguageItem)
             }
         }
