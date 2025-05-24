@@ -9,11 +9,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.bumptech.glide.Glide
 import com.ndmquan.base.project.R
 import com.ndmquan.base.project.databinding.ItemLanguageParentBinding
 import com.ndmquan.base.project.ui.components.language_extendable_epoxy.model.LanguageItem
 import com.ndmquan.base_project.utils.extension.goneView
+import com.ndmquan.base_project.utils.extension.setPreventDoubleClick
 import com.ndmquan.base_project.utils.extension.visibleView
 import com.ndmquan.base_project.utils.parseColor
 
@@ -32,7 +32,7 @@ abstract class LanguageItemModel : EpoxyModelWithHolder<LanguageItemModel.Holder
 
     override fun bind(holder: Holder) {
         holder.binding?.apply {
-            Glide.with(root.context).load(languageItem.thumbnail).into(ivLanguage)
+            ivLanguage.setImageResource(languageItem.thumbnail)
             tvName.text = languageItem.name
             tvDescription.text = languageItem.description
 
@@ -53,16 +53,12 @@ abstract class LanguageItemModel : EpoxyModelWithHolder<LanguageItemModel.Holder
             val childThumbs = languageItem.children.map { it.thumbnail }.distinct().take(3)
             val imageViews = flChildContainer.children.map { it as ImageView }.toList().reversed()
             (0..2).forEach { index ->
-                if (index < childThumbs.size) {
-                    Glide.with(root).load(childThumbs[index]).into(imageViews[index])
-                } else {
-                    Glide.with(root).load("TuNV").into(imageViews[index])
-                }
+                imageViews[index].setImageResource(if (index < childThumbs.size) childThumbs[index] else R.color.white)
             }
 
             executePendingBindings()
 
-            root.setOnClickListener {
+            root.setPreventDoubleClick {
                 onClickListener?.invoke(languageItem)
             }
 

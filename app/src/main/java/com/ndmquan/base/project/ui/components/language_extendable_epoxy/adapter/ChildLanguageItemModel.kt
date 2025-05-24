@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.ndmquan.base.project.R
 import com.ndmquan.base.project.databinding.ItemLanguageChildBinding
 import com.ndmquan.base.project.ui.components.language_extendable_epoxy.model.ChildLanguageItem
+import com.ndmquan.base_project.utils.extension.setPreventDoubleClick
 import com.ndmquan.base_project.utils.parseColor
 
 @EpoxyModelClass
@@ -28,13 +29,14 @@ abstract class ChildLanguageItemModel : EpoxyModelWithHolder<ChildLanguageItemMo
 
     override fun bind(holder: Holder) {
         holder.binding?.apply {
-            Glide.with(root.context).load(childLanguageItem.thumbnail).into(ivThumbnail)
+            ivThumbnail.setImageResource(childLanguageItem.thumbnail)
             tvName.text = childLanguageItem.name
 
             rbSelected.isChecked = childLanguageItem.isSelected
-            item.strokeColor = if (childLanguageItem.isSelected) "#5A5A5A".parseColor() else Color.TRANSPARENT
+            item.strokeColor =
+                if (childLanguageItem.isSelected) "#5A5A5A".parseColor() else Color.TRANSPARENT
 
-            root.setOnClickListener {
+            root.setPreventDoubleClick {
                 onClickListener?.invoke(childLanguageItem)
             }
         }

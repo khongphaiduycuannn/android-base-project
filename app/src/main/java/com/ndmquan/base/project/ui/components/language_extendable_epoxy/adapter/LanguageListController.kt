@@ -34,18 +34,28 @@ class LanguageListController : EpoxyController() {
                 id(language.name)
                 languageItem(language)
                 onClickListener {
-                    this@LanguageListController.onLanguageClickListener?.invoke(language)
+                    if (language.singleChild) {
+                        this@LanguageListController
+                            .onChildLanguageClickListener
+                            ?.invoke(language.children.first())
+                    } else {
+                        this@LanguageListController
+                            .onLanguageClickListener
+                            ?.invoke(language)
+                    }
                 }
             }
 
-            if (language.isExpanded) {
-                language.children.forEach { childLanguage ->
-                    childLanguageItem {
-                        id("_${childLanguage.name}")
-                        childLanguageItem(childLanguage)
-                        onClickListener {
-                            this@LanguageListController.onChildLanguageClickListener?.invoke(childLanguage)
-                        }
+            if (!language.isExpanded) return@forEach
+
+            language.children.forEach { childLanguage ->
+                childLanguageItem {
+                    id("_${childLanguage.name}")
+                    childLanguageItem(childLanguage)
+                    onClickListener {
+                        this@LanguageListController
+                            .onChildLanguageClickListener
+                            ?.invoke(childLanguage)
                     }
                 }
             }
