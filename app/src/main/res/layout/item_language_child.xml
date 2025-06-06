@@ -7,60 +7,74 @@
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/item"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/_2sdp"
-        android:layout_marginStart="@dimen/_35sdp"
-        android:layout_marginEnd="@dimen/_13sdp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/_8sdp"
-        app:cardElevation="@dimen/_1sdp"
-        app:strokeColor="@android:color/transparent"
-        app:strokeWidth="1.2dp">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <com.ndmquan.base.project.ui.components.language_extendable_epoxy.custom.view.CurvedConnectionView
+            android:id="@+id/curvedView"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:curvedOrientation="topToEnd|topToBottom"
+            app:radius="@dimen/_200sdp"
+            app:strokeColor="#ABABAB"
+            app:strokeWidth="@dimen/_1sdp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_13sdp"
-            android:paddingVertical="@dimen/_7sdp">
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="@dimen/_1sdp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="1.2dp">
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="@dimen/_11sdp"
-                tools:text="Vietnamese" />
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_13sdp"
+                android:paddingVertical="@dimen/_7sdp">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_11sdp"
+                    tools:text="Vietnamese" />
 
-            <ImageView
-                android:id="@+id/ivThumbnail"
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginEnd="@dimen/_3sdp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_language_vietnamese" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
-            <android.widget.RadioButton
-                android:id="@+id/rbSelected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:background="@null"
-                android:buttonTint="@color/radio_button_language"
-                android:clickable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/ivThumbnail"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_language_vietnamese" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <android.widget.RadioButton
+                    android:id="@+id/rbSelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@null"
+                    android:buttonTint="@color/radio_button_language"
+                    android:clickable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </layout>

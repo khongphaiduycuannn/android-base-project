@@ -7,11 +7,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.bumptech.glide.Glide
 import com.ndmquan.base.project.R
 import com.ndmquan.base.project.databinding.ItemLanguageChildBinding
+import com.ndmquan.base.project.ui.components.language_extendable_epoxy.custom.view.CurvedConnectionView.Companion.TOP_TO_BOTTOM
+import com.ndmquan.base.project.ui.components.language_extendable_epoxy.custom.view.CurvedConnectionView.Companion.TOP_TO_END
 import com.ndmquan.base.project.ui.components.language_extendable_epoxy.model.ChildLanguageItem
-import com.ndmquan.base_project.utils.extension.setPreventDoubleClick
 import com.ndmquan.base_project.utils.parseColor
 
 @EpoxyModelClass
@@ -22,6 +22,9 @@ abstract class ChildLanguageItemModel : EpoxyModelWithHolder<ChildLanguageItemMo
 
     @EpoxyAttribute
     lateinit var childLanguageItem: ChildLanguageItem
+
+    @EpoxyAttribute
+    var lastItem: Boolean? = null
 
     @EpoxyAttribute(hash = false)
     var onClickListener: ((ChildLanguageItem) -> Unit)? = null
@@ -35,6 +38,9 @@ abstract class ChildLanguageItemModel : EpoxyModelWithHolder<ChildLanguageItemMo
             rbSelected.isChecked = childLanguageItem.isSelected
             item.strokeColor =
                 if (childLanguageItem.isSelected) "#5A5A5A".parseColor() else Color.TRANSPARENT
+
+            curvedView.curvedOrientation =
+                if (lastItem == true) TOP_TO_END else (TOP_TO_END or TOP_TO_BOTTOM)
 
             root.setOnClickListener {
                 onClickListener?.invoke(childLanguageItem)

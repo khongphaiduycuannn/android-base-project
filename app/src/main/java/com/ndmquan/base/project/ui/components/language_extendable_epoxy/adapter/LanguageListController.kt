@@ -48,10 +48,11 @@ class LanguageListController : EpoxyController() {
 
             if (!language.isExpanded) return@forEach
 
-            language.children.forEach { childLanguage ->
+            language.children.forEachIndexed { index, childLanguage ->
                 childLanguageItem {
                     id("_${childLanguage.name}")
                     childLanguageItem(childLanguage)
+                    lastItem(index == language.children.lastIndex)
                     onClickListener {
                         this@LanguageListController
                             .onChildLanguageClickListener

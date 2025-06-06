@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CurvedConnectionView">
+        <attr name="curvedOrientation">
+            <flag name="topToStart" value="1" />
+            <flag name="topToEnd" value="2" />
+            <flag name="topToBottom" value="4" />
+            <flag name="bottomToStart" value="8" />
+            <flag name="bottomToEnd" value="16" />
+            <flag name="startToEnd" value="32" />
+        </attr>
+
+        <attr name="radius" format="dimension" />
+
+        <attr name="strokeWidth" format="dimension" />
+
+        <attr name="strokeColor" format="color" />
+    </declare-styleable>
+</resources>

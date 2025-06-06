@@ -13,7 +13,6 @@ import com.ndmquan.base.project.R
 import com.ndmquan.base.project.databinding.ItemLanguageParentBinding
 import com.ndmquan.base.project.ui.components.language_extendable_epoxy.model.LanguageItem
 import com.ndmquan.base_project.utils.extension.goneView
-import com.ndmquan.base_project.utils.extension.setPreventDoubleClick
 import com.ndmquan.base_project.utils.extension.visibleView
 import com.ndmquan.base_project.utils.parseColor
 

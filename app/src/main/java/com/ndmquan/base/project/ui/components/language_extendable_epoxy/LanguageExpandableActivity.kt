@@ -22,14 +22,14 @@ class LanguageExpandableActivity : BaseActivity<ActivityLanguageExpandableBindin
                 LanguageData.toggleLanguageExpansion(it)
                 languageController.submitData(LanguageData.languages)
 
-                // set locale...
+                // Invoke when language list expanded
             }
 
             languageController.setOnChildLanguageClickListener {
                 LanguageData.selectChildLanguage(it)
                 languageController.submitData(LanguageData.languages)
 
-                // set locale...
+                // Invoke when language selected
             }
         }
     }
