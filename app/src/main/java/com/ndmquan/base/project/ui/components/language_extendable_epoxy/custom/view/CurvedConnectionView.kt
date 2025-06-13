@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.ndmquan.base.project.R
@@ -27,10 +28,10 @@ class CurvedConnectionView @JvmOverloads constructor(
         const val START_TO_END = 32
 
         const val DEFAULT_RADIUS = 0f
+        const val DEFAULT_CURVE_INTENSITY = 0.3f  // Renamed for clarity
         const val DEFAULT_STROKE_WIDTH = 5f
         const val DEFAULT_STROKE_COLOR = Color.BLUE
     }
-
 
     var curvedOrientation: Int = TOP_TO_END
         set(value) {
@@ -41,6 +42,12 @@ class CurvedConnectionView @JvmOverloads constructor(
     var cornerRadius: Float = DEFAULT_RADIUS
         set(value) {
             field = value.coerceAtLeast(0f)
+            invalidate()
+        }
+
+    var curveIntensity: Float = DEFAULT_CURVE_INTENSITY
+        set(value) {
+            field = value.coerceIn(0f, 1f)
             invalidate()
         }
 
@@ -58,15 +65,20 @@ class CurvedConnectionView @JvmOverloads constructor(
             invalidate()
         }
 
-
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
         strokeJoin = Paint.Join.ROUND
     }
 
-    private val path = Path()
+    private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = Color.TRANSPARENT
+    }
 
+    private val path = Path()
+    private val backgroundPath = Path()
+    private val rectF = RectF()
 
     init {
         context.theme.obtainStyledAttributes(
@@ -78,6 +90,7 @@ class CurvedConnectionView @JvmOverloads constructor(
                 curvedOrientation =
                     getInt(R.styleable.CurvedConnectionView_curvedOrientation, TOP_TO_START)
                 cornerRadius = getDimension(R.styleable.CurvedConnectionView_radius, DEFAULT_RADIUS)
+                curveIntensity = getFloat(R.styleable.CurvedConnectionView_curveIntensity, DEFAULT_CURVE_INTENSITY)
                 strokeWidth =
                     getDimension(R.styleable.CurvedConnectionView_strokeWidth, DEFAULT_STROKE_WIDTH)
                 strokeColor =
@@ -90,12 +103,10 @@ class CurvedConnectionView @JvmOverloads constructor(
         updatePaintProperties()
     }
 
-
     private fun updatePaintProperties() {
         paint.strokeWidth = strokeWidth
         paint.color = strokeColor
     }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = 200
@@ -126,10 +137,26 @@ class CurvedConnectionView @JvmOverloads constructor(
 
         if (width == 0 || height == 0) return
 
+        // Draw background with corner radius (like drawable)
+        if (cornerRadius > 0f) {
+            drawRoundedBackground(canvas)
+        }
+
+        // Draw connection lines
         path.reset()
         drawCurvedConnections(canvas)
     }
 
+    private fun drawRoundedBackground(canvas: Canvas) {
+        backgroundPath.reset()
+
+        // Create rounded rectangle path
+        rectF.set(0f, 0f, width.toFloat(), height.toFloat())
+        backgroundPath.addRoundRect(rectF, cornerRadius, cornerRadius, Path.Direction.CW)
+
+        // Clip canvas to rounded rectangle for proper corner radius effect
+        canvas.clipPath(backgroundPath)
+    }
 
     private fun drawCurvedConnections(canvas: Canvas) {
         val centerX = width / 2f
@@ -168,87 +195,82 @@ class CurvedConnectionView @JvmOverloads constructor(
     private fun drawCurvedLine(canvas: Canvas, start: PointF, end: PointF) {
         path.reset()
 
-        if (cornerRadius == 0f) {
-            val centerX = width / 2f
-            val centerY = height / 2f
+        val centerX = width / 2f
+        val centerY = height / 2f
+        val centerPoint = PointF(centerX, centerY)
 
+        if (curveIntensity == 0f) {
+            // Draw straight lines through center when no curve intensity
             path.moveTo(start.x, start.y)
             path.lineTo(centerX, centerY)
             path.lineTo(end.x, end.y)
         } else {
-            drawGradualCurve(start, end)
+            // Draw lines with rounded corners at center (like drawable corner radius)
+            drawRoundedCornerPath(start, centerPoint, end)
         }
 
         canvas.drawPath(path, paint)
     }
 
-    private fun drawGradualCurve(start: PointF, end: PointF) {
-        val centerX = width / 2f
-        val centerY = height / 2f
+    private fun drawRoundedCornerPath(start: PointF, corner: PointF, end: PointF) {
+        // Calculate the maximum possible radius based on distances
+        val distToCorner1 = sqrt((corner.x - start.x).let { it * it } + (corner.y - start.y).let { it * it })
+        val distToCorner2 = sqrt((end.x - corner.x).let { it * it } + (end.y - corner.y).let { it * it })
+        val maxRadius = min(distToCorner1, distToCorner2) / 2f
 
-        val maxRadius = min(width, height) / 4f
-        val normalizedRadius = (cornerRadius / maxRadius).coerceIn(0f, 1f)
+        // Scale the radius by curveIntensity
+        val actualRadius = maxRadius * curveIntensity
 
-        val controlPoints =
-            calculateGradualControlPoints(start, end, centerX, centerY, normalizedRadius)
+        if (actualRadius <= 0f) {
+            // No rounding, draw straight lines
+            path.moveTo(start.x, start.y)
+            path.lineTo(corner.x, corner.y)
+            path.lineTo(end.x, end.y)
+            return
+        }
 
-        path.moveTo(start.x, start.y)
-        path.cubicTo(
-            controlPoints.first.x, controlPoints.first.y,
-            controlPoints.second.x, controlPoints.second.y,
-            end.x, end.y
+        // Calculate unit vectors from corner to start and end
+        val toStart = PointF(start.x - corner.x, start.y - corner.y)
+        val toEnd = PointF(end.x - corner.x, end.y - corner.y)
+
+        val toStartLength = sqrt(toStart.x * toStart.x + toStart.y * toStart.y)
+        val toEndLength = sqrt(toEnd.x * toEnd.x + toEnd.y * toEnd.y)
+
+        if (toStartLength == 0f || toEndLength == 0f) {
+            // Degenerate case, draw straight line
+            path.moveTo(start.x, start.y)
+            path.lineTo(end.x, end.y)
+            return
+        }
+
+        // Normalize vectors
+        val unitToStart = PointF(toStart.x / toStartLength, toStart.y / toStartLength)
+        val unitToEnd = PointF(toEnd.x / toEndLength, toEnd.y / toEndLength)
+
+        // Calculate points where rounding starts
+        val roundStart = PointF(
+            corner.x + unitToStart.x * actualRadius,
+            corner.y + unitToStart.y * actualRadius
         )
+        val roundEnd = PointF(
+            corner.x + unitToEnd.x * actualRadius,
+            corner.y + unitToEnd.y * actualRadius
+        )
+
+        // Draw the path
+        path.moveTo(start.x, start.y)
+        path.lineTo(roundStart.x, roundStart.y)
+
+        // Calculate control points for quadratic curve (like drawable corner radius)
+        // Control point is at the corner itself
+        path.quadTo(corner.x, corner.y, roundEnd.x, roundEnd.y)
+
+        path.lineTo(end.x, end.y)
     }
 
     private fun drawStraightLine(canvas: Canvas, start: PointF, end: PointF) {
         canvas.drawLine(start.x, start.y, end.x, end.y, paint)
     }
-
-    private fun calculateGradualControlPoints(
-        start: PointF,
-        end: PointF,
-        centerX: Float,
-        centerY: Float,
-        intensity: Float
-    ): Pair<PointF, PointF> {
-        val dx = end.x - start.x
-        val dy = end.y - start.y
-        val length = sqrt(dx * dx + dy * dy)
-
-        if (length == 0f) {
-            return Pair(start, end)
-        }
-
-        val unitX = dx / length
-        val unitY = dy / length
-
-        val perpX = -unitY
-        val perpY = unitX
-
-        val baseDisplacement = length * 0.15f * intensity
-
-        val t1 = 0.3f
-        val displacement1 = baseDisplacement * 0.4f
-        val cp1X = start.x + unitX * length * t1 + perpX * displacement1
-        val cp1Y = start.y + unitY * length * t1 + perpY * displacement1
-
-        val t2 = 0.7f
-        val displacement2 = baseDisplacement * 0.4f
-        val cp2X = start.x + unitX * length * t2 + perpX * displacement2
-        val cp2Y = start.y + unitY * length * t2 + perpY * displacement2
-
-        val centerPull = intensity * 0.3f
-        val toCenterX1 = (centerX - cp1X) * centerPull
-        val toCenterY1 = (centerY - cp1Y) * centerPull
-        val toCenterX2 = (centerX - cp2X) * centerPull
-        val toCenterY2 = (centerY - cp2Y) * centerPull
-
-        return Pair(
-            PointF(cp1X + toCenterX1, cp1Y + toCenterY1),
-            PointF(cp2X + toCenterX2, cp2Y + toCenterY2)
-        )
-    }
-
 
     private fun hasOrientation(orientation: Int): Boolean {
         return (curvedOrientation and orientation) != 0

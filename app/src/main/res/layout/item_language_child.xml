@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_10sdp"
             app:curvedOrientation="topToEnd|topToBottom"
-            app:radius="@dimen/_200sdp"
+            app:curveIntensity="1"
             app:strokeColor="#ABABAB"
             app:strokeWidth="@dimen/_1sdp" />
 

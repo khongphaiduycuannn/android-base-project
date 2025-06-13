@@ -9,11 +9,9 @@
             <flag name="bottomToEnd" value="16" />
             <flag name="startToEnd" value="32" />
         </attr>
-
         <attr name="radius" format="dimension" />
-
+        <attr name="curveIntensity" format="float" />
         <attr name="strokeWidth" format="dimension" />
-
         <attr name="strokeColor" format="color" />
     </declare-styleable>
 </resources>
