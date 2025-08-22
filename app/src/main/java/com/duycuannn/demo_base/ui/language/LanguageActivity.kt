@@ -6,9 +6,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.duycuannn.base_project.components.BaseActivity
 import com.duycuannn.base_project.utils.extensions.setPreventDoubleClick
-import com.duycuannn.base_project.utils.showToast
 import com.duycuannn.demo_base.databinding.ActivityLanguageBinding
 import com.duycuannn.demo_base.ui.language.components.itemLanguage
+import com.duycuannn.demo_base.ui.onboarding.OnboardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,7 +36,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(
     override fun handleEvents() {
         binding.ivConfirm.setPreventDoubleClick {
             viewModel.applyLanguage()
-            showToast("Language applied successfully")
+            OnboardingActivity.startActivity(this)
         }
     }
 

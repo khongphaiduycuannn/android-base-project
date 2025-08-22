@@ -4,21 +4,25 @@
     <style name="text_regular">
         <item name="android:fontFamily">@font/svn_gilroy_regular</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">@dimen/_2sdp</item>
     </style>
 
     <style name="text_medium">
         <item name="android:fontFamily">@font/svn_gilroy_medium</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">@dimen/_2sdp</item>
     </style>
 
     <style name="text_semibold">
         <item name="android:fontFamily">@font/svn_gilroy_semibold</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">@dimen/_2sdp</item>
     </style>
 
     <style name="text_bold">
         <item name="android:fontFamily">@font/svn_gilroy_bold</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">@dimen/_2sdp</item>
     </style>
 
 

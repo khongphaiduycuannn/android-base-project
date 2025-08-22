@@ -70,6 +70,10 @@ dependencies {
     // hilt
     val hiltVersion = "2.57"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
     ksp("com.google.dagger:hilt-compiler:$hiltVersion")
+
+
+    // glide
+    val glideVersion = "4.16.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
 }

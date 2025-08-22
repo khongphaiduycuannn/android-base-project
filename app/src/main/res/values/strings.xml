@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">base-project</string>
     <string name="hello_i_m_thuongok">Hello I\'m thuongok!</string>
+    <string name="next">Next</string>
+
+    <string name="onboarding_title_1">Explore the Universe</string>
+    <string name="onboarding_description_1">✨ Discover stars, planets, and constellations right above you.</string>
+    <string name="onboarding_title_2"><![CDATA[Point & Identify]]></string>
+    <string name="onboarding_description_2">📍 Just point your phone to the sky and instantly know what you’re looking at.</string>
+    <string name="onboarding_title_3">Track Celestial Events</string>
+    <string name="onboarding_description_3">🌙 Stay updated with eclipses, meteor showers, and planet movements.</string>
+    <string name="onboarding_title_4">Your Personal Sky Guide</string>
+    <string name="onboarding_description_4">🔭 Learn, explore, and enjoy the night sky—anytime, anywhere.</string>
+    <string name="start">Start</string>
 </resources>

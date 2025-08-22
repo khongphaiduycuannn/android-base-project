@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_main">
+
+    <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_onboarding_2" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/text_bold_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+        app:layout_constraintEnd_toEndOf="@+id/tvDescription"
+        app:layout_constraintStart_toStartOf="@+id/tvDescription"
+        tools:text="Explore the Universe" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        style="@style/text_regular_14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_28sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/_6sdp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="✨ Discover stars, planets, and constellations right above you." />
+</androidx.constraintlayout.widget.ConstraintLayout>
