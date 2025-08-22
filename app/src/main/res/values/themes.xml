@@ -1,0 +1,8 @@
+<resources>
+    <style name="Base.Theme.Baseproject" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Theme.Baseproject" parent="Base.Theme.Baseproject" />
+</resources>
