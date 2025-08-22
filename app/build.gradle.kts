@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -63,4 +65,11 @@ dependencies {
     implementation("com.airbnb.android:epoxy:$epoxyVersion")
     implementation("com.airbnb.android:epoxy-databinding:$epoxyVersion")
     kapt("com.airbnb.android:epoxy-processor:$epoxyVersion")
+
+
+    // hilt
+    val hiltVersion = "2.57"
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    ksp("com.google.dagger:hilt-compiler:$hiltVersion")
 }

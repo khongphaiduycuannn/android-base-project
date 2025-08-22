@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background_main">#000000</color>
+    <color name="ripple_dark">#15000000</color>
+    <color name="ripple_light">#15FFFFFF</color>
 </resources>
